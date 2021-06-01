@@ -21,8 +21,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.version}</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>7</source>
+                    <target>7</target>
                 </configuration>
             </plugin>
         </plugins>

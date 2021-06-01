@@ -176,54 +176,65 @@ public class Library {
         writer.close();
     }
 
-    public boolean rentItemToUser(Item item, User user){
+    public boolean rentItemToUser(Item item, User user) {
+        boolean isInLibrary = false;
+        for (User user1 : usersSet) {
+            if (user1.getLibraryNumber()== user.getLibraryNumber()) {
+                isInLibrary = true;
+                break;
+            }
+        }
+        if (isInLibrary) {
+            if (user instanceof Student) {
+                Student student = (Student) user;
+                if (student.getListOfRentedItems().size() < student.MAX_ITEMS) {
 
-        if (user instanceof Student ){
-            Student student = (Student)user;
-            if (student.getListOfRentedItems().size()<student.MAX_ITEMS){
+                    if (this.mapOfFreeItems.containsKey(item)) {
 
-                if (this.mapOfFreeItems.containsKey(item)) {
+                        if (this.mapOfFreeItems.get(item) > 0) {
 
-                    if (this.mapOfFreeItems.get(item)>0){
-
-                        student.addItemToListOfRentedItems(item);
-                        this.mapOfFreeItems.put(item,this.mapOfFreeItems.get(item)-1);
-                        return true;
-                    }else{
-                        System.out.println("You can not borrow this book because it is not availible.");
+                            student.addItemToListOfRentedItems(item);
+                            this.mapOfFreeItems.put(item, this.mapOfFreeItems.get(item) - 1);
+                            return true;
+                        } else {
+                            System.out.println("You can not borrow this book because it is not availible.");
+                            return false;
+                        }
+                    } else {
+                        System.out.println("You can not borrow this book because does not exist " + item.getTitle() + ".");
                         return false;
                     }
                 } else {
-                    System.out.println("You can not borrow this book because does not exist " + item.getTitle()+".");
+                    System.out.println(("You have limit the maximum of rented items. Please return some items to borrow new."));
                     return false;
                 }
-            }else {
-                System.out.println(("You have limit the maximum of rented items. Please return some items to borrow new."));
-                return false;
-            }
-        }else{
-            Lecturer lecturer = (Lecturer)user;
-            if (lecturer.getListOfRentedItems().size()<lecturer.MAX_ITEMS){
+            } else {
+                Lecturer lecturer = (Lecturer) user;
+                if (lecturer.getListOfRentedItems().size() < lecturer.MAX_ITEMS) {
 
-                if (this.mapOfFreeItems.containsKey(item)) {
+                    if (this.mapOfFreeItems.containsKey(item)) {
 
-                    if (this.mapOfFreeItems.get(item)>0){
+                        if (this.mapOfFreeItems.get(item) > 0) {
 
-                        lecturer.addItemToListOfRentedItems(item);
-                        this.mapOfFreeItems.put(item,this.mapOfFreeItems.get(item)-1);
-                        return true;
-                    }else{
-                        System.out.println("You can not borrow this book because it is not availible.");
+                            lecturer.addItemToListOfRentedItems(item);
+                            this.mapOfFreeItems.put(item, this.mapOfFreeItems.get(item) - 1);
+                            return true;
+                        } else {
+                            System.out.println("You can not borrow this book because it is not availible.");
+                            return false;
+                        }
+                    } else {
+                        System.out.println("You can not borrow this book because does not exist " + item.getTitle() + ".");
                         return false;
                     }
                 } else {
-                    System.out.println("You can not borrow this book because does not exist " + item.getTitle()+".");
+                    System.out.println("You have limit the maximum of rented items. Please return some items to borrow new.");
                     return false;
                 }
-            }else {
-                System.out.println(("You have limit the maximum of rented items. Please return some items to borrow new."));
-                return false;
             }
+        } else {
+            System.out.println("You are not register in Library");
+            return false;
         }
     }
 }

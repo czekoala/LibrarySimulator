@@ -28,7 +28,7 @@ public class Main {
         System.out.println(lecturer4.toString());
 
         Library myLibrary = new Library();
-        myLibrary.addUserToLibrary(student1, student2, student3, student4, lecturer1, lecturer2, lecturer3, lecturer4);
+        myLibrary.addUserToLibrary(student1, student2, student3, student4, lecturer1, lecturer2, lecturer3);
         myLibrary.printListOfUsers();
 
         Book book1 = new Book("Henryk Sienkiewicz", "Ogniem i mieczem");
@@ -79,12 +79,13 @@ public class Main {
         myLibrary.printListOfMagazines();
         System.out.println();
 
-
         System.out.println();
         try {
             myLibrary.exportUsersWithItemsToFile("src/main/java/export-data.csv"+ System.currentTimeMillis() + ".csv");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        myLibrary.rentItemToUser(magazine4, lecturer4);
     }
 }
